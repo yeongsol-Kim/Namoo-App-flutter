@@ -26,6 +26,11 @@ class _MainScreenState extends State<MainScreen>{
 
     return SafeArea(
         child: Scaffold(
+          appBar: AppBar(
+            title: Text("home"),
+            backgroundColor: Colors.deepOrange,
+            leading: Container(),
+          ),
           backgroundColor: Colors.deepOrange,
           body: Center(
             child: Container(
@@ -44,34 +49,6 @@ class _MainScreenState extends State<MainScreen>{
                 }
               ),
             ),
-          ),
-          bottomNavigationBar: BottomNavigationBar(
-            type: BottomNavigationBarType.fixed,
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Home',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.add_alert_outlined),
-                label: 'Notice',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.access_time),
-                label: 'WorkLog',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.ad_units_outlined),
-                label: 'Schedule',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.account_box_rounded),
-                label: 'People',
-              ),
-            ],
-            currentIndex: _selectedIndex,
-            selectedItemColor: Colors.amber[800],
-            onTap: _onItemTapped,
           ),
         )
     );
