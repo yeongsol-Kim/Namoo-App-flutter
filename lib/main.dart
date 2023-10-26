@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:namoo/screen/screen_home.dart';
-import 'package:namoo/screen/screen_main.dart';
 
 void main() {
   runApp(const MyApp());

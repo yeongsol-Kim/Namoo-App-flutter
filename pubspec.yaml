@@ -38,6 +38,7 @@ dependencies:
   flutter_native_splash:
   flutter_swiper_plus:
   scrollable_list_tabview:
+  table_calendar: ^3.0.9
 
 dev_dependencies:
   flutter_test:
