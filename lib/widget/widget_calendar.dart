@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:namoo/model/model_event.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:intl/intl.dart';
 
 class Calendar extends StatefulWidget {
   @override
@@ -10,20 +11,12 @@ class Calendar extends StatefulWidget {
 }
 
 class _CalendarState extends State<Calendar>{
-  CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
+  DateFormat shiftTimeFormat = DateFormat("HH:mm");
   Map<DateTime, dynamic> kEvents = {
-    DateTime.utc(2023,10,1) : [Event('5분 기도하기', false),],
-    DateTime.utc(2023,10,3) : [Event('5분 기도하기', false),Event('교회 가서 인증샷 찍기', false),Event('QT하기', true),Event('셀 모임하기', true),],
-    DateTime.utc(2023,10,5) : [Event('5분 기도하기', true),Event('치킨 먹기', true),Event('QT하기', true),Event('셀 모임하기', true),],
-    DateTime.utc(2023,10,8) : [Event('5분 기도하기', true),Event('자기 셀카 올리기', true),Event('QT하기', true),Event('셀 모임하기', true),],
-    DateTime.utc(2023,10,11) : [Event('5분 기도하기', true),Event('가족과 저녁식사 하기', true),Event('QT하기', true)],
-    DateTime.utc(2023,10,13) : [Event('5분 기도하기', true),Event('교회 가서 인증샷 찍기', true),Event('QT하기', true),Event('셀 모임하기', true),],
-    DateTime.utc(2023,10,15) : [Event('5분 기도하기', true),Event('치킨 먹기', true),Event('QT하기', true),Event('셀 모임하기', true),],
-    DateTime.utc(2023,10,18) : [Event('5분 기도하기', true),Event('자기 셀카 올리기', true),Event('QT하기', true),Event('셀 모임하기', true),],
-    DateTime.utc(2023,10,20) : [Event('5분 기도하기', true),Event('자기 셀카 올리기', true),Event('QT하기', true),Event('셀 모임하기', true),],
-    DateTime.utc(2023,10,25) : [Event('5분 기도하기', true),Event('가족과 저녁식사 하기', true),Event('QT하기', true)]
+    DateTime.utc(2023,10,29) : [Event('Jack', DateTime(2023, 10, 29, 11, 30), DateTime(2023, 10, 29, 22, 0),), Event('Hanz', DateTime(2023, 10, 29, 11, 30, 0), DateTime(2023, 10, 29, 22, 00, 0),)],
+    DateTime.utc(2023,10,30) : [Event('sol', DateTime(2023, 10, 2, 9, 30), DateTime(2023, 10, 2, 16, 0),)],
   };
 
   late final ValueNotifier<List<Event>> _selectedEvents;
@@ -45,9 +38,14 @@ class _CalendarState extends State<Calendar>{
     return Column(
       children: [
         TableCalendar(
-          firstDay: DateTime.utc(2010, 10, 16),
-          lastDay: DateTime.utc(2030, 3, 14),
+          firstDay: DateTime.utc(2023, 1, 1),
+          lastDay: DateTime.utc(2033, 1, 1),
           focusedDay: _focusedDay,
+          calendarFormat: CalendarFormat.twoWeeks,
+          headerStyle: HeaderStyle(
+            formatButtonVisible: false,
+            titleCentered: true,
+          ),
           selectedDayPredicate: (day) {
             return isSameDay(_selectedDay, day);
           },
@@ -61,12 +59,11 @@ class _CalendarState extends State<Calendar>{
               _selectedEvents.value = _getEventsForDay(selectedDay);
             });
           },
-          calendarFormat: _calendarFormat,
-          onFormatChanged: (format) {
-            setState(() {
-              _calendarFormat = format;
-            });
-          },
+          // onFormatChanged: (format) {
+          //   setState(() {
+          //     _calendarFormat = format;
+          //   });
+          // },
           onPageChanged: (focusedDay) {
             _focusedDay = focusedDay;
           },
@@ -79,7 +76,7 @@ class _CalendarState extends State<Calendar>{
             valueListenable: _selectedEvents,
             builder: (context, value, _) {
               return Container(
-                height: 160,
+                height: 300,
                 child: ListView.builder(
                   itemCount: value.length,
                   itemBuilder: (context, index) {
@@ -90,11 +87,12 @@ class _CalendarState extends State<Calendar>{
                       ),
                       decoration: BoxDecoration(
                         border: Border.all(),
-                        borderRadius: BorderRadius.circular(12.0),
+                        borderRadius: BorderRadius.circular(5.0),
                       ),
                       child: ListTile(
                         onTap: () => print('${value[index]}'),
                         title: Text('${value[index]}',),
+                        subtitle: Text('${shiftTimeFormat.format(value[index].startTime)} ~ ${shiftTimeFormat.format(value[index].endTime)}'),
                       ),
                     );
                   },

@@ -1,8 +1,9 @@
 class Event {
-  String title;
-  bool complete;
-  Event(this.title, this.complete);
+  String name;
+  DateTime startTime;
+  DateTime endTime;
+  Event(this.name, this.startTime, this.endTime);
 
   @override
-  String toString() => title;
+  String toString() => name;
 }
